@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Tech News</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            padding: 20px;
+        }
+        h1 { color: #38bdf8; }
+        .news {
+            background: #1e293b;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        a { color: #38bdf8; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>🤖 Latest AI Technology News</h1>
+    <div id="news">Loading...</div>
+
+<script>
+fetch("https://api.allorigins.win/raw?url=https://news.google.com/rss/search?q=artificial+intelligence")
+.then(res => res.text())
+.then(data => {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data, "text/xml");
+    const items = xml.querySelectorAll("item");
+
+    let html = "";
+    for (let i = 0; i < 8; i++) {
+        const title = items[i].querySelector("title").textContent;
+        const link = items[i].querySelector("link").textContent;
+        html += `<div class="news"><a href="${link}" target="_blank">${title}</a></div>`;
+    }
+    document.getElementById("news").innerHTML = html;
+});
+</script>
+</body>
+</html>
